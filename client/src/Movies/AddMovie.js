@@ -10,7 +10,7 @@ const initialState = {
   stars: [],
 };
 
-const UpdateMovie = (props) => {
+const AddMovie = (props) => {
   const [formValues, setFormValues] = useState(initialState);
   const params = useParams();
   const { push } = useHistory();
@@ -18,8 +18,8 @@ const UpdateMovie = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .put(`http://localhost:5000/api/movies/${params.id}`, {
-        id: params.id,
+      .post("http://localhost:5000/api/movies", {
+        id: Date.now(),
         title: formValues.title,
         director: formValues.director,
         metascore: formValues.metascore,
@@ -79,4 +79,4 @@ const UpdateMovie = (props) => {
   );
 };
 
-export default UpdateMovie;
+export default AddMovie;
