@@ -1,22 +1,29 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useParams, useHistory } from "react-router-dom";
 
-const UpdateMovie = () => {
+const UpdateMovie = (props) => {
   const [formValues, setFormValues] = useState("");
+  const params = useParams();
+  const { push } = useHistory();
 
   const handleSubmit = (event) => {
+    event.preventDefault();
     axios
-      .put("http://api/movies/:id", {
+      .put(`http://localhost:5000/api/movies/${params.id}`, {
+        id: params.id,
         title: formValues.title,
         director: formValues.director,
         metascore: formValues.metascore,
-        stars: formValues.stars
+        stars: formValues.stars,
       })
       .then((res) => {
+        console.log(res);
         setFormValues({
           [event.target.name]: "",
         });
-        window.location.href = "/";
+        props.setMovieList(res.data);
+        push("/");
       })
       .catch((err) => console.log(err));
   };
